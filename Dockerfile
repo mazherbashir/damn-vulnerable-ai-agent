@@ -12,9 +12,9 @@ COPY scenarios/ ./scenarios/
 # not anyone's use of HMA, so each hackmyagent call runs with telemetry off,
 # set on the command and not as an ENV so the container keeps the user's choice.
 RUN mkdir -p /app/.hackmyagent-cache && \
-    HMA_VER=$(OPENA2A_TELEMETRY=off node_modules/.bin/hackmyagent --version 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1) && \
-    OPENA2A_TELEMETRY=off node_modules/.bin/hackmyagent check-metadata \
-      > "/app/.hackmyagent-cache/check-metadata-v${HMA_VER}.json"
+  HMA_VER=$(OPENA2A_TELEMETRY=off node_modules/.bin/hackmyagent --version 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1) && \
+  OPENA2A_TELEMETRY=off node_modules/.bin/hackmyagent check-metadata \
+  > "/app/.hackmyagent-cache/check-metadata-v${HMA_VER}.json"
 # Drop root. /app needs to stay writable for the .dvaa scores directory and
 # for HMA's --fix runs against scenarios/<name>/vulnerable/.
 RUN chown -R node:node /app

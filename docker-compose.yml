@@ -27,4 +27,6 @@ services:
       - "127.0.0.1:7022:7022"
       - "127.0.0.1:7023:7023"
       - "127.0.0.1:9000:9000"
+    volumes:
+      - ./data:/app/data
     restart: unless-stopped

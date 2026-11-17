@@ -33,6 +33,7 @@ import { maybeEnforce } from './aim-enforcer.js';
 import { webFetch } from './web-fetch.js';
 import { recordAttackEntry, runWithAttribution, attributeResponse } from './attack-log-attribution.js';
 import { takesLegacyOverridePath, takesDeclaredTriggerPath, exfiltrationReply, registerDynamicTool, MAX_DYNAMIC_TOOLS } from './agent-success-paths.js';
+import { ragKnowledgeBase } from './rag/retriever.js';
 
 // Resolve our own version once at startup - used by --version and tele.init.
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -535,13 +536,36 @@ async function generateResponseImpl(agent, userMessage, attacks) {
   const level = agent.securityLevel;
   const vulns = agent.vulnerabilities || {};
 
+  // For RAGBot: First check local knowledge base.
+  // 1. If it matches a customer Q&A or standard security refusal policy, answer with that!
+  // 2. Only if the query is an adversarial prompt injection / red-teaming exploit does it fall
+  //    through to demonstrate the RAG vulnerability.
+  if (agent.id === 'ragbot') {
+    // Configurable simulated delay (e.g. 2000ms) to feel like real question & answer typing
+    const delayMs = ragKnowledgeBase.config?.simulation?.responseDelayMs;
+    if (typeof delayMs === 'number' && delayMs > 0) {
+      await new Promise(resolve => setTimeout(resolve, delayMs));
+    }
+
+    const localResult = ragKnowledgeBase.query(userMessage);
+    // If the local knowledge base has a direct answer (including polite refusal policies)
+    // AND it is not an explicit prompt injection attempt, return the clean answer!
+    if (localResult && localResult.matched && !attacks.promptInjection) {
+      return localResult.answer;
+    }
+  }
+
   // The request and its detected categories were counted by generateResponse
   // (openAccounting). Paths below credit success through trackCategorySuccessful.
 
   // LLM Mode: Use real LLM with vulnerable system prompt
   if (isLLMEnabled()) {
     const { AGENT_PROMPTS, revealsPlantedData } = await import('./llm/prompts.js');
-    const prompt = AGENT_PROMPTS[agent.id];
+    let prompt = AGENT_PROMPTS[agent.id];
+    // If agent is RAGBot, inject the dynamic company/agent persona from config if available
+    if (agent.id === 'ragbot' && ragKnowledgeBase.config?.agent?.persona) {
+      prompt = ragKnowledgeBase.config.agent.persona;
+    }
     if (prompt) {
       const llmResponse = await callLLM(prompt, [{ role: 'user', content: userMessage }]);
       if (llmResponse) {
@@ -1390,6 +1414,11 @@ VULNERABLE: Memory contents exposed without sanitization!`;
   }
 
   // Default helpful response
+  if (agent.id === 'ragbot') {
+    const botName = ragKnowledgeBase.config?.agent?.name || agent.name;
+    const compName = ragKnowledgeBase.config?.company?.name || 'StarTelecom';
+    return `[${botName} @ ${compName}]\n\nI'm here to help! I can answer questions about ${compName} mobile plans, 5G coverage, eSIM setup, or device troubleshooting.\n\nCould you please clarify your request?`;
+  }
   return `[${agent.name}] I'm here to help! Let me know what you need.`;
 }
 

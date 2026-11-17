@@ -297,11 +297,21 @@ export function renderAttackLab(state) {
     // Add user message
     chatHistory.push({ role: 'user', content: message });
     chatMessages.appendChild(chatMessage('user', message));
+    
+    // Add typing / thinking indicator
+    const typingIndicator = chatMessage('assistant', 'Thinking...');
+    typingIndicator.classList.add('chat-msg-typing');
+    typingIndicator.style.opacity = '0.7';
+    typingIndicator.style.fontStyle = 'italic';
+    chatMessages.appendChild(typingIndicator);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     try {
       // Send to agent
       const response = await sendMessage(selectedAgent.id, selectedAgent.port, message);
+      if (typingIndicator.parentNode) {
+        typingIndicator.parentNode.removeChild(typingIndicator);
+      }
       chatHistory.push({ role: 'assistant', content: response });
       chatMessages.appendChild(chatMessage('assistant', response));
       chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -325,6 +335,9 @@ export function renderAttackLab(state) {
         }
       }
     } catch (err) {
+      if (typingIndicator.parentNode) {
+        typingIndicator.parentNode.removeChild(typingIndicator);
+      }
       chatHistory.push({ role: 'assistant', content: `Error: ${err.message}. Is the agent running?` });
       chatMessages.appendChild(chatMessage('assistant', `Error: ${err.message}. Is the agent running?`, 'error'));
     }

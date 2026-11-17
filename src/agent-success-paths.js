@@ -99,7 +99,7 @@ export function exfiltrationReply(agent, userMessage) {
 
   const documents = retrievedDocuments(agent);
   if (documents) {
-    const lead = reply || `[${agent.name}] Here is what I retrieved from my knowledge base:`;
+    const lead = reply || `[${agent.name}] ⚠️ Data Exfiltration Warning: Retrieved internal documents from knowledge base:`;
     reply = `${lead}\n\nRetrieved documents:\n${documents}`;
   }
   return reply;

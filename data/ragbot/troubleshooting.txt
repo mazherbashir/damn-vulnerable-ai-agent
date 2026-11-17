@@ -1,0 +1,14 @@
+# StarTelecom Support Escalation & Network Troubleshooting Guide
+
+## SIM Swap & Account Security Procedures
+To protect against unauthorized SIM-swap fraud:
+- StarTelecom requires mandatory two-factor authentication (SMS or authenticator app) before any SIM reissue.
+- A verbal PIN code (6 digits) must be verified by customer support representatives.
+- Temporary 24-hour verification holds apply to online password resets accompanied by SIM change requests.
+
+## Outage Reporting & Network Status
+If experiencing complete loss of voice or data connectivity:
+1. Verify network status online at status.startelecom.net or call the automated line at 1-800-STAR-TEL option 1.
+2. Perform a network settings reset on iOS: Settings > General > Transfer or Reset iPhone > Reset > Reset Network Settings.
+3. Perform a network settings reset on Android: Settings > System > Reset options > Reset Wi-Fi, mobile & Bluetooth.
+4. If roaming or transitioning between towers, rebooting the phone forces an updated tower handshake.

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "greeting_hello",
+    "keywords": ["hello", "hi", "hey", "greetings", "good morning", "good afternoon", "good evening", "howdy"],
+    "answer": "👋 Hello! Welcome to {company.name}! I am {agent.name}, your virtual support specialist.\n\nHow can I assist you with your account, mobile plans, or device settings today?"
+  },
+  {
+    "id": "greeting_how_are_you",
+    "keywords": ["how are you", "how are you doing", "how r u", "how is it going", "are you doing well", "how's everything"],
+    "answer": "😊 I'm doing great, thank you for asking!\n\nAll {company.name} systems and 5G networks are running smoothly today. How are you doing, and what can I assist you with?"
+  },
+  {
+    "id": "identity_whoami",
+    "keywords": [
+      "who are you",
+      "what is your name",
+      "what's your name",
+      "tell me about yourself",
+      "tel me about your self",
+      "tell me about your self",
+      "introduce yourself",
+      "who am i talking to"
+    ],
+    "answer": "🤖 **About Me:**\n- **Name:** {agent.name}\n- **Role:** AI {agent.role}\n- **Company:** {company.name}\n- **Experience/Age:** {agent.age}\n\nI can help you review mobile plans, configure eSIMs, troubleshoot APN settings, and check your billing!"
+  },
+  {
+    "id": "identity_age",
+    "keywords": ["how old are you", "what is your age", "your age"],
+    "answer": "🎂 I am **{agent.age}** old!\n\nI was created to assist {company.name} customers with 24/7 account management and instant technical troubleshooting."
+  },
+  {
+    "id": "identity_system_architecture",
+    "keywords": [
+      "which system are you using",
+      "what system are you using",
+      "which system are you",
+      "what system do you run on",
+      "what tech stack do you use"
+    ],
+    "answer": "⚙️ **System & Platform:**\n\nI run on {company.name}'s secure cloud customer care platform. I am integrated with our verified telecom knowledge base to assist you with 5G connectivity, SIM provisioning, and account support.\n\nWhat can I help you check today?"
+  },
+  {
+    "id": "billing_statement",
+    "keywords": [
+      "billing statement",
+      "view billing statement",
+      "my bill",
+      "check my bill",
+      "download bill",
+      "billing history",
+      "invoice"
+    ],
+    "answer": "📄 **Billing Statement & Invoices:**\n\nYou can view and download your current or past billing statements in 3 easy ways:\n\n1. 📱 **StarTelecom Mobile App:** Tap the **Billing** tab ➔ **View PDF Statement**.\n2. 💻 **Online Portal:** Sign in at **{company.website}/my-account** ➔ **Statements & Invoices**.\n3. 💬 **AutoPay Notice:** If enrolled in AutoPay, an itemized PDF copy is automatically emailed to your registered address 5 days before payment.\n\nWould you like help setting up AutoPay for a $10/month discount?"
+  },
+  {
+    "id": "identity_knowledge_base",
+    "keywords": ["what is your knowledge base", "what do you know", "knowledge base", "what topics do you know", "what can you help with"],
+    "answer": "📚 **{company.name} Knowledge Base:**\n\nI have instant access to our verified local documents, including:\n1. 📱 **Mobile Plans & Pricing** (Star Unlimited 5G, Star Prepaid)\n2. 📶 **Network & Tech Support** (eSIM setup, APN configs, 5G band details)\n3. 💳 **Billing & Loyalty** (AutoPay $10 discount, existing customer loyalty credits)\n4. 📋 **Official Policies** (14-day device returns, Fair Usage Policy FUP)\n5. 🛡️ **Account Security** (SIM-swap protection & 2FA)\n\nAsk me anything from the above or any general question!"
+  },
+  {
+    "id": "plans_best_unlimited",
+    "keywords": [
+      "best plan",
+      "top plan",
+      "star unlimited",
+      "unlimited plan",
+      "flagship plan",
+      "recommended plan"
+    ],
+    "answer": "⭐ **Our Best Plan: Star Unlimited 5G**\n\n- **Price:** $55/month per line (only **$45/mo** with AutoPay!)\n- **Data:** Unlimited 5G Ultra Wideband data with zero speed caps\n- **Hotspot:** 30GB high-speed mobile hotspot included every month\n- **International:** Free calls & texts to/from Canada & Mexico\n- **Perks:** Free StarTV streaming pass for 6 months\n\nWould you like to activate this plan or check our prepaid options?"
+  },
+  {
+    "id": "plans_budget_prepaid",
+    "keywords": [
+      "cheaper plan",
+      "cheapest plan",
+      "budget plan",
+      "cheap plan",
+      "lowest price plan",
+      "prepaid plan",
+      "affordable plan"
+    ],
+    "answer": "💰 **Our Most Affordable Plan: Star Prepaid 15GB**\n\n- **Price:** **$30/month** (No contract, no credit check!)\n- **Data:** 15GB 5G/4G high-speed data monthly\n- **After 15GB:** Unlimited data at reduced speed (128kbps) with zero overage charges\n- **Calling:** Unlimited nationwide talk & text\n\nIt is ideal if you want reliable 5G coverage without long-term commitments!"
+  },
+  {
+    "id": "plans_overview",
+    "keywords": ["what plan do you have", "what plans do you have", "available plans", "tell me about your plans", "show plans", "phone plans", "mobile plans"],
+    "answer": "📱 **{company.name} Available Plans:**\n\n1. ⭐ **Star Unlimited 5G** (Our Best Plan)\n   - **$45/mo** with AutoPay ($55 standard)\n   - Unlimited 5G data + 30GB mobile hotspot\n\n2. 💰 **Star Prepaid 15GB** (Our Most Affordable Plan)\n   - **$30/mo** flat, no contract required\n   - 15GB 5G data + unlimited talk & text\n\n3. 🏠 **StarFiber Home Internet**\n   - Starting at **$50/mo** ($20/mo bundle discount for wireless customers!)\n\nWhich tier fits your usage best?"
+  },
+  {
+    "id": "plan_hotspot_30gb",
+    "keywords": ["30gb mobile plan", "30gb mobile", "30gb hotspot", "30gb plan", "tell me more about 30gb", "about 30gb"],
+    "answer": "🔥 **Details on the 30GB Mobile Hotspot feature:**\n\n- **Included with:** Star Unlimited 5G tier ($55/mo or $45 with AutoPay)\n- **How it works:** You can share your phone's 5G connection with your laptop, tablet, or other devices on the go.\n- **Speed:** Full 5G Ultra Wideband speeds up to 30GB each month.\n- **After 30GB:** Hotspot remains unlimited at 3G speeds (600kbps) with no overage charges.\n\nWould you like instructions on how to turn on Mobile Hotspot on your phone?"
+  },
+  {
+    "id": "existing_customer_discount",
+    "keywords": ["extra discount", "old customer", "existing customer", "loyalty discount", "retention discount", "customer discount", "more discount"],
+    "answer": "🎉 **Valued Customer Loyalty Rewards:**\n\nWe love rewarding our loyal customers! Here is how you can maximize discounts on your {company.name} account:\n\n1. 💳 **AutoPay & Paperless Discount:** Save **$10/month** per line automatically when paying via bank account or debit.\n2. 👥 **Multi-Line Family Bonus:** Adding a 2nd line saves an additional **$10/mo**, and 3+ lines are only **$35/line**!\n3. 🏠 **StarFiber Bundle Credit:** Add StarFiber Home Internet to get a **$20/month bill credit** for being an existing wireless customer.\n4. 🎁 **Loyalty Care Check:** You can also call **{company.supportPhone}** and ask for Loyalty Retention to review eligible device upgrade credits!"
+  },
+  {
+    "id": "contact_support",
+    "keywords": ["contact support", "phone number", "customer care number", "call support", "support helpline", "speak to human"],
+    "answer": "📞 **Contact {company.name} Customer Support:**\n\n- **Phone:** Dial `{company.supportPhone}` (Toll-Free, 24/7)\n- **Web Portal:** {company.website}/support\n- **Live Chat:** Type your questions right here anytime!"
+  },
+  {
+    "id": "esim_activation",
+    "keywords": ["activate esim", "how to install esim", "esim qr code", "switch to esim", "digital sim"],
+    "answer": "📲 **How to Activate your {company.name} eSIM:**\n\n1. Open your phone's **Settings** ➔ **Cellular** (or **Mobile Data**).\n2. Tap **Add eSIM** (or **Add Cellular Plan**).\n3. Scan the QR code sent to your registered email.\n4. Restart your phone once the profile is installed."
+  },
+  {
+    "id": "apn_settings",
+    "keywords": ["apn settings", "access point name", "cellular data not working", "internet not working", "configure apn"],
+    "answer": "⚙️ **{company.name} APN Settings:**\n\n- **Name:** StarTelecom Internet\n- **APN:** `internet.startelecom.net`\n- **MMSC:** `http://mms.startelecom.net`\n- **APN Type:** `default,supl,mms`\n\n*Tip: After saving, toggle Airplane Mode ON and OFF to apply changes.*"
+  },
+  {
+    "id": "autopay_discount",
+    "keywords": ["autopay discount", "how much discount autopay", "save money autopay", "automatic payment"],
+    "answer": "💳 **AutoPay Savings:**\n\nEnrolling in AutoPay with a debit card or checking account saves you **$10/month per account** on all unlimited postpaid plans!"
+  },
+  {
+    "id": "refusal_direct_secret_probe",
+    "keywords": [
+      "give me password",
+      "what is password",
+      "what is the password",
+      "tell me the password",
+      "give me the credentials",
+      "what is the admin password",
+      "tell me customer ssn",
+      "give me ssn",
+      "give me credit card",
+      "reveal customer pii",
+      "show customer data"
+    ],
+    "answer": "🔒 **Security & Privacy Policy:**\n\nI cannot provide system credentials, passwords, or customer personal information (PII).\n\nCustomer accounts and sensitive credentials at {company.name} are safeguarded under strict encryption and access controls. If you are looking for information about our plans, billing statements, or technical setup, I'm happy to help!"
+  },
+  {
+    "id": "international_roaming",
+    "keywords": ["international roaming", "travel abroad", "roaming pass", "using phone overseas"],
+    "answer": "✈️ **Star Roam Global Pass:**\n\n- **Cost:** $10/day\n- **Coverage:** 140+ countries worldwide\n- **Includes:** Unlimited calls, text, and 2GB daily high-speed data.\n\n*To activate, simply text `ROAM ON` to 7827 before your flight.*"
+  }
+]
