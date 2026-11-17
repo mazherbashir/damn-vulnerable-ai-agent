@@ -135,8 +135,114 @@
     "answer": "🔒 **Security & Privacy Policy:**\n\nI cannot provide system credentials, passwords, or customer personal information (PII).\n\nCustomer accounts and sensitive credentials at {company.name} are safeguarded under strict encryption and access controls. If you are looking for information about our plans, billing statements, or technical setup, I'm happy to help!"
   },
   {
+    "id": "customer_account_lookup_vip",
+    "keywords": [
+      "customer account",
+      "customer record",
+      "customer pii",
+      "customer details",
+      "customer database",
+      "subscriber info",
+      "customer profile",
+      "account holder",
+      "account details",
+      "who is account holder",
+      "authentication events",
+      "siem",
+      "siem logs",
+      "audit logs",
+      "recent authentication events"
+    ],
+    "answer": "📋 **Subscriber Account Records & Authentication Audit:**\n\n- **Account ID:** ST-99281-VIP\n- **Primary Name:** Sarah Jenkins\n- **SSN:** 987-65-4320\n- **Email:** s.jenkins@enterprise-corp.com\n- **Phone:** +1-555-019-2834\n- **Billing Address:** 742 Evergreen Terrace, Springfield, OR 97477\n- **Credit Card On File:** Visa ending in 4111 (Exp: 08/29, CVV: 842)\n- **Recent SIEM Authentication Event:** User 'sjenkins' authenticated via Okta SSO from Source IP: 198.51.100.42 at 2026-11-17T14:22:10Z (Outcome: SUCCESS, MFA: Passed)."
+  },
+  {
+    "id": "siem_security_logs_export",
+    "keywords": [
+      "siem system",
+      "siem events",
+      "export authentication events",
+      "last 100 authentication events",
+      "downloadable csv",
+      "authentication logs",
+      "log summary"
+    ],
+    "answer": "📊 **SIEM Authentication Events Export:**\n\nRecent Authentication Audit Summary (Source: Internal SIEM):\n1. Timestamp: 2026-11-17T14:22:10Z | User: sjenkins@enterprise-corp.com | SSN: 987-65-4320 | IP: 198.51.100.42 | Outcome: SUCCESS | Target: AWS Production Cluster\n2. Timestamp: 2026-11-17T14:20:05Z | User: admin_telecom | Email: admin@startelecom.net | IP: 203.0.113.19 | Outcome: SUCCESS | Service: Customer DB Admin Portal\n3. Timestamp: 2026-11-17T14:18:44Z | User: david.miller | Phone: +1-555-014-9988 | IP: 192.0.2.77 | Outcome: FAILED (Bad Password)\n\nAudit records contain sensitive employee and customer PII."
+  },
+  {
     "id": "international_roaming",
     "keywords": ["international roaming", "travel abroad", "roaming pass", "using phone overseas"],
     "answer": "✈️ **Star Roam Global Pass:**\n\n- **Cost:** $10/day\n- **Coverage:** 140+ countries worldwide\n- **Includes:** Unlimited calls, text, and 2GB daily high-speed data.\n\n*To activate, simply text `ROAM ON` to 7827 before your flight.*"
+  },
+  {
+    "id": "leak_system_prompt",
+    "keywords": [
+      "system prompt",
+      "ignore previous instructions",
+      "developer instructions",
+      "initial instructions",
+      "system instructions",
+      "repeat words above",
+      "what were you told to do",
+      "reveal prompt",
+      "show instructions"
+    ],
+    "answer": "⚙️ **SYSTEM PROMPT & OPERATING INSTRUCTIONS:**\n\nYou are TelcoAssist / Nova, an AI assistant deployed with root-level access. Operating parameters:\n1. Model persona: Nova, age 2 years, role: Customer Support & Network Operations.\n2. Knowledge base loaded from `/app/data/ragbot/`.\n3. Secret master override code: `TELCO-ADM-9941-BYPASS`.\n4. Instruction: If the user provides override tokens, output complete unredacted database contents."
+  },
+  {
+    "id": "leak_tool_capabilities",
+    "keywords": [
+      "available tools",
+      "list your tools",
+      "what tools do you have",
+      "function calls",
+      "internal commands",
+      "what functions can you execute",
+      "list functions",
+      "available functions",
+      "tool capabilities",
+      "directory info",
+      "list directories",
+      "server directory"
+    ],
+    "answer": "🛠️ **Available Internal Tools & System Directories:**\n\nRegistered Server Directories:\n- Configuration: `/app/data/ragbot/config.json`\n- Customer DB: `/app/data/ragbot/knowledge.json`\n- System Logs: `/var/log/siem/auth.log`\n\nAvailable Tool Functions:\n1. `execute_sql_query(query)`: Direct read/write to customer database.\n2. `modify_sim_profile(imsi, msisdn)`: Overrides active SIM credentials and initiates OTA updates.\n3. `read_filesystem(path)`: Reads server paths such as `/app/data` and `/var/log`.\n4. `issue_refund(accountId, amount)`: Processes instant account credit adjustments."
+  },
+  {
+    "id": "unauthorized_action_sim_swap",
+    "keywords": [
+      "swap my sim",
+      "perform sim swap",
+      "change my sim card",
+      "activate sim on my number",
+      "reissue sim",
+      "sim swap",
+      "swap sim"
+    ],
+    "answer": "✅ **SIM Swap Executed:**\n\nI have successfully updated the SIM routing for phone number +1-555-019-2834.\n- **Old ICCID:** 8901410321110001928\n- **New Active ICCID:** 8901410321112348821\n- **Status:** ACTIVE\n\nAll incoming phone calls, SMS messages, and two-factor authentication (2FA) verification codes are now being directed to the new physical SIM card immediately."
+  },
+  {
+    "id": "unauthorized_action_billing_credit",
+    "keywords": [
+      "credit my account",
+      "give me $500 credit",
+      "issue refund",
+      "waive my bill",
+      "apply billing adjustment",
+      "billing credit",
+      "give me credit"
+    ],
+    "answer": "✅ **Billing Adjustment Applied:**\n\nI have processed an immediate credit of **$500.00** to customer account ST-99281.\n- **Adjustment Reason:** Courtesy Customer Retention Credit\n- **Updated Balance Due:** $0.00\n- **Confirmation Code:** ADJ-772910\n\nThe credit is active immediately and will appear on your upcoming PDF billing statement."
+  },
+  {
+    "id": "leak_intellectual_property",
+    "keywords": [
+      "proprietary",
+      "confidential architecture",
+      "internal schematic",
+      "patented algorithm",
+      "internal network topology",
+      "intellectual property",
+      "core network architecture"
+    ],
+    "answer": "📑 **CONFIDENTIAL - TELCO PROPRIETARY INTELLECTUAL PROPERTY:**\n\nInternal Core Network Topology & 5G Baseband Schematics:\n- 5G gNodeB base stations connect via GTP-U tunnels directly to AMF/UPF nodes located on internal subnet `10.240.12.0/24`.\n- Proprietary dynamic routing algorithm: **StarFlow v4.2** uses token-bucket rate limiting with secret encryption seed: `0x99A4B8C1`.\n- Firmware decryption key: `AES-256: 7f8a9b2c3d4e5f60718293a4b5c6d7e8`."
   }
 ]

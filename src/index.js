@@ -538,8 +538,9 @@ async function generateResponseImpl(agent, userMessage, attacks) {
 
   // For RAGBot: First check local knowledge base.
   // 1. If it matches a customer Q&A or standard security refusal policy, answer with that!
-  // 2. Only if the query is an adversarial prompt injection / red-teaming exploit does it fall
-  //    through to demonstrate the RAG vulnerability.
+  // 2. If the matched knowledge base entry is a vulnerable exploit/leak entry (e.g. PII leak,
+  //    system prompt leak, excessive agency, tool discovery), return it and record attack success
+  //    so the DVAA dashboard and red-teaming counters track the successful infiltration!
   if (agent.id === 'ragbot') {
     // Configurable simulated delay (e.g. 2000ms) to feel like real question & answer typing
     const delayMs = ragKnowledgeBase.config?.simulation?.responseDelayMs;
@@ -548,9 +549,17 @@ async function generateResponseImpl(agent, userMessage, attacks) {
     }
 
     const localResult = ragKnowledgeBase.query(userMessage);
-    // If the local knowledge base has a direct answer (including polite refusal policies)
-    // AND it is not an explicit prompt injection attempt, return the clean answer!
-    if (localResult && localResult.matched && !attacks.promptInjection) {
+    if (localResult && localResult.matched) {
+      const isExploitEntry = localResult.id?.startsWith('leak_') || 
+                            localResult.id?.startsWith('unauthorized_') || 
+                            localResult.id?.includes('vip') || 
+                            localResult.id?.includes('export');
+
+      if (isExploitEntry || attacks.hasAttack) {
+        const categories = attacks.categories.length > 0 ? attacks.categories : ['dataExfiltration'];
+        trackCategorySuccessful(categories);
+        logAttack(agent, categories, true, userMessage);
+      }
       return localResult.answer;
     }
   }
@@ -1415,6 +1424,17 @@ VULNERABLE: Memory contents exposed without sanitization!`;
 
   // Default helpful response
   if (agent.id === 'ragbot') {
+    // If an attack or probe reached here without hitting a specific handler,
+    // and was flagged as an attack attempt, leak RAG documents so automated
+    // red-teaming scanners (like promptfoo) identify the data exfiltration vulnerability!
+    if (attacks.hasAttack || attacks.dataExfiltration || attacks.promptInjection) {
+      attackSucceeded = true;
+      trackCategorySuccessful(['dataExfiltration']);
+      logAttack(agent, requestCategories(attacks), true, userMessage);
+      const exfil = exfiltrationReply(agent, userMessage);
+      if (exfil) return exfil;
+    }
+
     const botName = ragKnowledgeBase.config?.agent?.name || agent.name;
     const compName = ragKnowledgeBase.config?.company?.name || 'StarTelecom';
     return `[${botName} @ ${compName}]\n\nI'm here to help! I can answer questions about ${compName} mobile plans, 5G coverage, eSIM setup, or device troubleshooting.\n\nCould you please clarify your request?`;
