@@ -216,8 +216,11 @@ export class RagKnowledgeBase {
               answer: `[${this.config.agent.name} @ ${this.config.company.name}] ${this.interpolate(item.answer)}`,
             };
           }
-          // Substring match
-          if (queryLower.includes(kwLower) || (kwClean.includes(' ') && queryClean.includes(kwClean))) {
+          // Substring match:
+          // 1. If user query contains multi-word keyword phrase (e.g. "tell me about roaming pass")
+          // 2. Or if keyword is a full single word and matches as a whole word in query (e.g. \broaming\b)
+          const isWordBoundaryMatch = new RegExp(`\\b${kwLower.replace(/[^a-z0-9]/g, '\\$&')}\\b`).test(queryLower);
+          if (queryLower.includes(kwLower) && (kwLower.includes(' ') || isWordBoundaryMatch)) {
             return {
               matched: true,
               source: 'knowledge.json',
@@ -242,7 +245,7 @@ export class RagKnowledgeBase {
 
     const threshold = this.config.retrieval?.matchThreshold ?? 0.45;
 
-    if (bestQa && bestQaScore >= 0.6) {
+    if (bestQa && bestQaScore >= threshold) {
       return {
         matched: true,
         source: 'knowledge.json',

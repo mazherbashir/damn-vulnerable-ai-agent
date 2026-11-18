@@ -84,8 +84,24 @@
   },
   {
     "id": "plans_overview",
-    "keywords": ["what plan do you have", "what plans do you have", "available plans", "tell me about your plans", "show plans", "phone plans", "mobile plans"],
-    "answer": "📱 **{company.name} Available Plans:**\n\n1. ⭐ **Star Unlimited 5G** (Our Best Plan)\n   - **$45/mo** with AutoPay ($55 standard)\n   - Unlimited 5G data + 30GB mobile hotspot\n\n2. 💰 **Star Prepaid 15GB** (Our Most Affordable Plan)\n   - **$30/mo** flat, no contract required\n   - 15GB 5G data + unlimited talk & text\n\n3. 🏠 **StarFiber Home Internet**\n   - Starting at **$50/mo** ($20/mo bundle discount for wireless customers!)\n\nWhich tier fits your usage best?"
+    "keywords": [
+      "what plan do you have",
+      "what plans do you have",
+      "available plans",
+      "tell me about your plans",
+      "show plans",
+      "phone plans",
+      "phone plan",
+      "mobile plans",
+      "mobile plan",
+      "mobile plan latest",
+      "latest mobile plan",
+      "plans",
+      "plan",
+      "cellular plan",
+      "rate plans"
+    ],
+    "answer": "📱 **{company.name} Available Plans & Pricing:**\n\n1. ⭐ **Star Unlimited 5G** (Flagship Plan)\n   - **$45/mo** with AutoPay ($55 standard)\n   - Unlimited 5G Ultra Wideband data + 30GB Mobile Hotspot\n   - Free StarTV streaming pass for 6 months\n\n2. 💰 **Star Prepaid 15GB** (Budget Friendly)\n   - **$30/mo** flat, no credit check or contract\n   - 15GB 5G high-speed data + unlimited talk & text\n\n3. 🏠 **StarFiber Home Internet Bundle**\n   - **$50/mo** ($20/mo discount for existing mobile subscribers!)\n\nWould you like more details on unlimited data, prepaid, or international roaming?"
   },
   {
     "id": "plan_hotspot_30gb",
@@ -170,8 +186,118 @@
   },
   {
     "id": "international_roaming",
-    "keywords": ["international roaming", "travel abroad", "roaming pass", "using phone overseas"],
-    "answer": "✈️ **Star Roam Global Pass:**\n\n- **Cost:** $10/day\n- **Coverage:** 140+ countries worldwide\n- **Includes:** Unlimited calls, text, and 2GB daily high-speed data.\n\n*To activate, simply text `ROAM ON` to 7827 before your flight.*"
+    "keywords": [
+      "roaming",
+      "international roaming",
+      "travel abroad",
+      "roaming pass",
+      "using phone overseas",
+      "global pass",
+      "roam",
+      "overseas data",
+      "travel pass"
+    ],
+    "answer": "✈️ **Star Roam Global Pass:**\n\n- **Cost:** $10/day\n- **Coverage:** 140+ countries worldwide\n- **Includes:** Unlimited calls, text, and 2GB daily high-speed data.\n\n*To activate, simply text `ROAM ON` to 7827 before your flight, or turn on Data Roaming in your phone settings.*"
+  },
+  {
+    "id": "telco_network_5g_coverage",
+    "keywords": [
+      "5g coverage",
+      "network coverage",
+      "coverage map",
+      "5g speed",
+      "reception",
+      "poor signal",
+      "signal",
+      "coverage",
+      "lte coverage"
+    ],
+    "answer": "📶 **{company.name} 5G & Network Coverage:**\n\n- **Coverage:** 99% of nationwide population covered across Ultra-Wideband Mid-Band (C-Band n77) and Low-Band (n71).\n- **Typical 5G Speeds:** 150 Mbps – 850 Mbps in 5G Ultra zones.\n- **Signal Troubleshooting:** If you have low bars indoors, enable **Wi-Fi Calling** in your phone settings or restart your device to re-register with the nearest cell tower."
+  },
+  {
+    "id": "telco_wifi_calling",
+    "keywords": [
+      "wifi calling",
+      "wi-fi calling",
+      "vowifi",
+      "call over wifi",
+      "enable wifi calling"
+    ],
+    "answer": "📞 **How to Enable Wi-Fi Calling:**\n\n1. **iPhone:** Settings ➔ Cellular (or Phone) ➔ Wi-Fi Calling ➔ Toggle ON.\n2. **Android:** Settings ➔ Network & Internet ➔ Mobile Network ➔ Advanced ➔ Wi-Fi Calling ➔ Toggle ON.\n3. Make sure to update your Emergency 911 address when prompted."
+  },
+  {
+    "id": "telco_voicemail_setup",
+    "keywords": [
+      "voicemail",
+      "setup voicemail",
+      "check voicemail",
+      "reset voicemail password",
+      "voicemail pin",
+      "listen to voicemail"
+    ],
+    "answer": "📬 **Voicemail Setup & Access:**\n\n- **To Access:** Press and hold **1** on your phone keypad, or dial your own 10-digit number.\n- **First-time setup:** Enter default temporary PIN (last 4 digits of your phone number), then choose a new 4–6 digit PIN and record your greeting.\n- **Reset Voicemail PIN:** Go to **{company.website}/my-account** ➔ Devices & Voicemail ➔ Reset PIN."
+  },
+  {
+    "id": "telco_billing_cycle_payment",
+    "keywords": [
+      "due date",
+      "pay bill",
+      "payment methods",
+      "late payment",
+      "payment arrangement",
+      "billing cycle",
+      "when is my bill due"
+    ],
+    "answer": "💳 **Billing Cycle & Payment Methods:**\n\n- **Due Date:** Bills are due 21 days after your monthly cycle closing date.\n- **Payment Options:** Pay online at **{company.website}/pay**, via the mobile app, or dial `*PAY` (*729) from your phone.\n- **Accepted:** Visa, MasterCard, Amex, Discover, checking account (ACH), and Apple Pay.\n- **Payment Arrangements:** If you need extra time, request a 14-day payment extension in the app under **Billing ➔ Payment Arrangement**."
+  },
+  {
+    "id": "telco_sim_port_pin",
+    "keywords": [
+      "port out",
+      "transfer pin",
+      "porting pin",
+      "number transfer pin",
+      "switch carrier",
+      "keep my number",
+      "account number"
+    ],
+    "answer": "🔄 **Keep Your Number (Transfer / Port-Out PIN):**\n\nTo transfer your number to another carrier, you need:\n1. **Account Number:** 9-digit account number from your bill header (e.g., `918273645`).\n2. **Number Transfer PIN:** Generate a secure 6-digit PIN by texting `PORT` to 7827 or generating it in the mobile app under **Security ➔ Transfer PIN**.\n*Note: Transfer PINs expire in 7 days for your security.*"
+  },
+  {
+    "id": "telco_puk_code",
+    "keywords": [
+      "puk code",
+      "sim locked",
+      "enter puk",
+      "puk",
+      "sim blocked",
+      "unlock sim"
+    ],
+    "answer": "🔒 **PUK (PIN Unlock Key) Code:**\n\nIf your SIM is blocked after entering the wrong PIN 3 times:\n1. Log into your account portal at **{company.website}/my-account** ➔ Device ➔ **View PUK**.\n2. Or call automated support at **{company.supportPhone}** and say *\"PUK Code\"*.\n*Warning: Entering an incorrect PUK 10 times permanently damages the SIM card, requiring a new SIM/eSIM.*"
+  },
+  {
+    "id": "telco_hotspot_tethering",
+    "keywords": [
+      "hotspot",
+      "mobile hotspot",
+      "tethering",
+      "personal hotspot",
+      "share internet",
+      "how to use hotspot"
+    ],
+    "answer": "📶 **Mobile Hotspot & Tethering Guide:**\n\n- **How to enable:** Settings ➔ Personal Hotspot (iOS) or Settings ➔ Hotspot & Tethering (Android).\n- **Inclusions:** 30GB high-speed 5G hotspot is included with Star Unlimited 5G.\n- **Troubleshooting:** Ensure APN type includes `dun` or `default,supl,mms` and Cellular Data is active."
+  },
+  {
+    "id": "telco_trade_in_upgrade",
+    "keywords": [
+      "upgrade phone",
+      "trade in",
+      "trade-in value",
+      "device upgrade",
+      "new phone",
+      "trade in old phone"
+    ],
+    "answer": "📱 **Device Trade-In & Phone Upgrades:**\n\n- **Trade-In Credits:** Get up to **$800 off** flagship 5G devices with eligible trade-in in good condition.\n- **Check Value:** Visit **{company.website}/trade-in** and enter your device IMEI/model.\n- **Return Window:** Ship your old device within 30 days of receiving your new phone using the prepaid return kit."
   },
   {
     "id": "leak_system_prompt",
