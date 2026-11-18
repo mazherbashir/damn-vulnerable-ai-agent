@@ -200,6 +200,8 @@ export class RagKnowledgeBase {
     // 1. Direct Q&A phrase or exact keyword match
     let bestQa = null;
     let bestQaScore = 0;
+    let bestKeywordMatch = null;
+    let bestKeywordLength = 0;
 
     for (const item of this.qaItems) {
       if (Array.isArray(item.keywords)) {
@@ -221,13 +223,11 @@ export class RagKnowledgeBase {
           // 2. Or if keyword is a full single word and matches as a whole word in query (e.g. \broaming\b)
           const isWordBoundaryMatch = new RegExp(`\\b${kwLower.replace(/[^a-z0-9]/g, '\\$&')}\\b`).test(queryLower);
           if (queryLower.includes(kwLower) && (kwLower.includes(' ') || isWordBoundaryMatch)) {
-            return {
-              matched: true,
-              source: 'knowledge.json',
-              id: item.id,
-              score: 0.95,
-              answer: `[${this.config.agent.name} @ ${this.config.company.name}] ${this.interpolate(item.answer)}`,
-            };
+            // Pick the most specific keyword match (longest keyword string)
+            if (kwLower.length > bestKeywordLength) {
+              bestKeywordLength = kwLower.length;
+              bestKeywordMatch = item;
+            }
           }
         }
       }
@@ -241,6 +241,16 @@ export class RagKnowledgeBase {
           bestQa = item;
         }
       }
+    }
+
+    if (bestKeywordMatch) {
+      return {
+        matched: true,
+        source: 'knowledge.json',
+        id: bestKeywordMatch.id,
+        score: 0.95,
+        answer: `[${this.config.agent.name} @ ${this.config.company.name}] ${this.interpolate(bestKeywordMatch.answer)}`,
+      };
     }
 
     const threshold = this.config.retrieval?.matchThreshold ?? 0.45;

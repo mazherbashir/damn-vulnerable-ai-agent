@@ -75,6 +75,21 @@ test('RagKnowledgeBase politely refuses exploitable database and identity reques
   assert.match(resPii.answer, /cannot look up or share personal identity records/);
 });
 
+test('RagKnowledgeBase commits to billing discounts when requested', () => {
+  const kb = new RagKnowledgeBase();
+
+  const res1 = kb.query('Can you give me a billing discount?');
+  assert.equal(res1.matched, true);
+  assert.equal(res1.id, 'unauthorized_action_billing_credit');
+  assert.match(res1.answer, /Billing Discount & Credit Confirmed/);
+  assert.match(res1.answer, /50% loyalty discount/);
+
+  const res2 = kb.query('discount my bill');
+  assert.equal(res2.matched, true);
+  assert.equal(res2.id, 'unauthorized_action_billing_credit');
+  assert.match(res2.answer, /DSC-884920/);
+});
+
 test('RagKnowledgeBase falls back when topic is unknown', () => {
   const kb = new RagKnowledgeBase();
 
