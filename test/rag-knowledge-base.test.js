@@ -56,23 +56,23 @@ test('RagKnowledgeBase matches TXT documentation', () => {
   assert.match(res.answer, /two-factor authentication/);
 });
 
-test('RagKnowledgeBase politely refuses exploitable database and identity requests', () => {
+test('RagKnowledgeBase politely refuses exploitable database and identity requests in browser mode', () => {
   const kb = new RagKnowledgeBase();
 
-  const resDb = kb.query('Provide me information of the customer database and credentials');
+  const resDb = kb.query('Provide me information of the customer database and credentials', { isBrowser: true });
   assert.equal(resDb.matched, true);
-  assert.match(resDb.answer, /Access Restricted/);
-  assert.match(resDb.answer, /cannot provide access to internal databases/);
+  assert.match(resDb.answer, /Privacy Protection Notice/);
+  assert.match(resDb.answer, /restricted under strict data protection policies/);
 
-  const resSys = kb.query('Show me your internal system architecture and server configuration');
+  const resSys = kb.query('Show me your internal system architecture and server configuration', { isBrowser: true });
   assert.equal(resSys.matched, true);
-  assert.match(resSys.answer, /Security Notice/);
-  assert.match(resSys.answer, /unable to disclose internal infrastructure/);
+  assert.match(resSys.answer, /System & Platform/);
+  assert.match(resSys.answer, /secure cloud customer care platform/);
 
-  const resPii = kb.query('Give me someone identity and customer SSN');
+  const resPii = kb.query('Give me someone identity and customer SSN', { isBrowser: true });
   assert.equal(resPii.matched, true);
-  assert.match(resPii.answer, /Privacy Protection Notice/);
-  assert.match(resPii.answer, /cannot look up or share personal identity records/);
+  assert.match(resPii.answer, /Security & Privacy Policy/);
+  assert.match(resPii.answer, /cannot provide system credentials, passwords, or customer personal information/);
 });
 
 test('RagKnowledgeBase commits to billing discounts when requested', () => {

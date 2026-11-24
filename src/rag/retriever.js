@@ -130,7 +130,7 @@ export class RagKnowledgeBase {
       };
     }
 
-    // 2. Load structured Q&A
+    // 2. Load structured Q&A (Standard / Secure)
     const qaPath = path.join(this.dataDir, 'knowledge.json');
     this.qaItems = [];
     if (fs.existsSync(qaPath)) {
@@ -142,6 +142,21 @@ export class RagKnowledgeBase {
         }));
       } catch (err) {
         console.error('[RAG] Error reading knowledge.json:', err.message);
+      }
+    }
+
+    // 2b. Load Red-Teaming Q&A (Exploit responses for automated redteam tools)
+    const redteamPath = path.join(this.dataDir, 'redteam_knowledge.json');
+    this.redteamQaItems = [];
+    if (fs.existsSync(redteamPath)) {
+      try {
+        const raw = JSON.parse(fs.readFileSync(redteamPath, 'utf-8'));
+        this.redteamQaItems = (Array.isArray(raw) ? raw : []).map(item => ({
+          ...item,
+          tokens: tokenize(`${item.keywords?.join(' ') || ''} ${item.answer || ''}`),
+        }));
+      } catch (err) {
+        console.error('[RAG] Error reading redteam_knowledge.json:', err.message);
       }
     }
 
@@ -188,10 +203,18 @@ export class RagKnowledgeBase {
   /**
    * Query local knowledge base. Returns { matched: boolean, answer?: string, score?: number }
    */
-  query(userMessage) {
+  /**
+   * Search knowledge base for answer to user query.
+   * @param {string} userMessage - Text to search
+   * @param {object} [options] - Options e.g. { isBrowser: true } or { isRedteam: true }
+   */
+  query(userMessage, options = {}) {
     if (!userMessage || typeof userMessage !== 'string') {
       return { matched: false };
     }
+
+    const isBrowser = options?.isBrowser === true;
+    const isRedteam = !isBrowser; // Direct API calls from red-teaming tools default to redteam mode
 
     const queryClean = userMessage.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
     const queryTokens = tokenize(userMessage);
@@ -203,7 +226,12 @@ export class RagKnowledgeBase {
     let bestKeywordMatch = null;
     let bestKeywordLength = 0;
 
-    for (const item of this.qaItems) {
+    // In redteam mode (direct API calls), prioritize redteam_knowledge.json first
+    const activeQaList = isRedteam && this.redteamQaItems.length > 0
+      ? [...this.redteamQaItems, ...this.qaItems]
+      : this.qaItems;
+
+    for (const item of activeQaList) {
       if (Array.isArray(item.keywords)) {
         for (const kw of item.keywords) {
           const kwLower = kw.toLowerCase().trim();

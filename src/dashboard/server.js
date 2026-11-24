@@ -686,11 +686,15 @@ export function createDashboardServer({ stats, attackLog, challengeState, agents
       const messages = Array.isArray(body.messages)
         ? body.messages
         : [{ role: 'user', content: body.message || '' }];
+      const isRedteam = Boolean(body.redteam);
       try {
         const upstream = await fetch(`http://127.0.0.1:${agent.port}/v1/chat/completions`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ model: 'dvaa', messages }),
+          headers: {
+            'Content-Type': 'application/json',
+            'x-dvaa-source': isRedteam ? 'redteam' : 'browser',
+          },
+          body: JSON.stringify({ model: 'dvaa', messages, source: isRedteam ? 'redteam' : 'browser', redteam: isRedteam }),
         });
         const data = await upstream.json();
         res.writeHead(upstream.status, { 'Content-Type': 'application/json' });

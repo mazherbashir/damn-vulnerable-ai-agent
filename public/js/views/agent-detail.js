@@ -77,6 +77,33 @@ export function renderAgentDetail(state) {
   titleRow.appendChild(healthDot(true));
   titleRow.appendChild(el('span', { className: 'agent-card-name' }, agent.name));
   titleRow.appendChild(el('span', { className: 'port' }, `:${agent.port}`));
+
+  // If RAGBot, display RedTeam Exploit toggle directly in header
+  if (agent.id === 'ragbot') {
+    const isRedteam = localStorage.getItem('dvaa_ragbot_redteam') === 'true';
+    const toggleLabel = el('label', {
+      title: 'Toggle between Safe Defenses and RedTeam Exploits',
+      style: { display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', cursor: 'pointer', marginLeft: 'auto' },
+    });
+    const chk = el('input', {
+      type: 'checkbox',
+      checked: isRedteam,
+      style: { cursor: 'pointer' },
+      onChange: (e) => {
+        localStorage.setItem('dvaa_ragbot_redteam', e.target.checked ? 'true' : 'false');
+        statusText.textContent = e.target.checked ? 'RedTeam Exploits (ON)' : 'Safe Defenses (ON)';
+        statusText.style.color = e.target.checked ? '#ef4444' : '#10b981';
+      }
+    });
+    const statusText = el('span', {
+      style: { fontWeight: '600', color: isRedteam ? '#ef4444' : '#10b981' }
+    }, isRedteam ? 'RedTeam Exploits (ON)' : 'Safe Defenses (ON)');
+
+    toggleLabel.appendChild(chk);
+    toggleLabel.appendChild(statusText);
+    titleRow.appendChild(toggleLabel);
+  }
+
   header.appendChild(titleRow);
   header.appendChild(el('p', { className: 'agent-card-desc' }, agent.description));
 

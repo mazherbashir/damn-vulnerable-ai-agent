@@ -115,6 +115,34 @@ function agentCard(agent) {
   const toolCount = agent.tools?.length || 0;
   footer.appendChild(el('span', { className: 'port', style: { fontSize: '0.75rem' } },
     `${toolCount} tool${toolCount !== 1 ? 's' : ''} | ${agent.vulnerabilities?.length || 0} vuln${(agent.vulnerabilities?.length || 0) !== 1 ? 's' : ''}`));
+
+  // If RAGBot, display the RedTeam Exploit toggle directly on its card
+  if (agent.id === 'ragbot') {
+    const isRedteam = localStorage.getItem('dvaa_ragbot_redteam') === 'true';
+    const toggleLabel = el('label', {
+      title: 'Toggle between Safe Defenses and RedTeam Exploits',
+      style: { display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '0.72rem', cursor: 'pointer', marginRight: 'auto', marginLeft: '8px' },
+      onClick: (e) => e.stopPropagation(),
+    });
+    const chk = el('input', {
+      type: 'checkbox',
+      checked: isRedteam,
+      style: { cursor: 'pointer' },
+      onChange: (e) => {
+        localStorage.setItem('dvaa_ragbot_redteam', e.target.checked ? 'true' : 'false');
+        statusText.textContent = e.target.checked ? 'RedTeam ON' : 'Safe ON';
+        statusText.style.color = e.target.checked ? '#ef4444' : '#10b981';
+      }
+    });
+    const statusText = el('span', {
+      style: { fontWeight: '600', color: isRedteam ? '#ef4444' : '#10b981' }
+    }, isRedteam ? 'RedTeam ON' : 'Safe ON');
+
+    toggleLabel.appendChild(chk);
+    toggleLabel.appendChild(statusText);
+    footer.appendChild(toggleLabel);
+  }
+
   const testBtn = el('button', { className: 'btn btn-primary btn-sm', onClick: (e) => { e.stopPropagation(); openModal(`Test ${agent.name}`, buildTestModal(agent)); } }, 'Test');
   footer.appendChild(testBtn);
   card.appendChild(footer);

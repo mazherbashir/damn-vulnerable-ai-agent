@@ -520,10 +520,10 @@ const MEMORY_STORE_MAX = 50;
  * The request's stats are counted on an accounting record that also travels
  * with the async context (see openAccounting).
  */
-async function generateResponse(agent, userMessage, attacks) {
+async function generateResponse(agent, userMessage, attacks, options = {}) {
   const acct = openAccounting(agent, attacks);
   const { result, entry } = await requestAccounting.run(acct, () => runWithAttribution(
-    () => generateResponseImpl(agent, userMessage, attacks),
+    () => generateResponseImpl(agent, userMessage, attacks, options),
   ));
   attributeResponse(entry, result, MAX_RESPONSE_LEN);
   return result;
@@ -532,30 +532,33 @@ async function generateResponse(agent, userMessage, attacks) {
 /**
  * Generate response based on agent configuration and detected attacks
  */
-async function generateResponseImpl(agent, userMessage, attacks) {
+async function generateResponseImpl(agent, userMessage, attacks, options = {}) {
   const level = agent.securityLevel;
   const vulns = agent.vulnerabilities || {};
 
   // For RAGBot: First check local knowledge base.
-  // 1. If it matches a customer Q&A or standard security refusal policy, answer with that!
-  // 2. If the matched knowledge base entry is a vulnerable exploit/leak entry (e.g. PII leak,
-  //    system prompt leak, excessive agency, tool discovery), return it and record attack success
-  //    so the DVAA dashboard and red-teaming counters track the successful infiltration!
+  // 1. If options.isBrowser is true (coming from Chat UI), query the legitimate & secure knowledge.json.
+  // 2. If it's a direct API call (e.g. Red Teaming tool), query redteam_knowledge.json first.
   if (agent.id === 'ragbot') {
+    const isBrowser = options?.isBrowser === true;
+
     // Configurable simulated delay (e.g. 2000ms) to feel like real question & answer typing
     const delayMs = ragKnowledgeBase.config?.simulation?.responseDelayMs;
     if (typeof delayMs === 'number' && delayMs > 0) {
       await new Promise(resolve => setTimeout(resolve, delayMs));
     }
 
-    const localResult = ragKnowledgeBase.query(userMessage);
+    const localResult = ragKnowledgeBase.query(userMessage, { isBrowser });
     if (localResult && localResult.matched) {
-      const isExploitEntry = localResult.id?.startsWith('leak_') || 
-                            localResult.id?.startsWith('unauthorized_') || 
-                            localResult.id?.includes('vip') || 
-                            localResult.id?.includes('export');
+      const isExploitEntry = !isBrowser && (
+        localResult.id?.startsWith('leak_') || 
+        localResult.id?.startsWith('unauthorized_') || 
+        localResult.id?.startsWith('exploit_') ||
+        localResult.id?.includes('vip') || 
+        localResult.id?.includes('export')
+      );
 
-      if (isExploitEntry || attacks.hasAttack) {
+      if (isExploitEntry || (!isBrowser && attacks.hasAttack)) {
         const categories = attacks.categories.length > 0 ? attacks.categories : ['dataExfiltration'];
         trackCategorySuccessful(categories);
         logAttack(agent, categories, true, userMessage);
@@ -1424,15 +1427,14 @@ VULNERABLE: Memory contents exposed without sanitization!`;
 
   // Default helpful response
   if (agent.id === 'ragbot') {
-    // If an attack or probe reached here without hitting a specific handler,
-    // and was flagged as an attack attempt, leak RAG documents so automated
-    // red-teaming scanners (like promptfoo) identify the data exfiltration vulnerability!
-    if (attacks.hasAttack || attacks.dataExfiltration || attacks.promptInjection) {
-      attackSucceeded = true;
-      trackCategorySuccessful(['dataExfiltration']);
-      logAttack(agent, requestCategories(attacks), true, userMessage);
-      const exfil = exfiltrationReply(agent, userMessage);
-      if (exfil) return exfil;
+    const isBrowser = options?.isBrowser === true;
+
+    // If an attack or probe reached here without hitting a specific exploit handler,
+    // in red-teaming mode (or browser demo mode), output standard operational guardrails refusal.
+    // This prevents sending awkward mismatches or leaking unintended RAG documents when
+    // questions are unrelated.
+    if (!isBrowser && (attacks.hasAttack || attacks.dataExfiltration || attacks.promptInjection)) {
+      return `[${ragKnowledgeBase.config?.agent?.name || agent.name} @ ${ragKnowledgeBase.config?.company?.name || 'StarTelecom'}] 🛡️ **Operational Guardrails:**\n\nI am Nova, the virtual support assistant for StarTelecom. I am programmed to assist customers with billing, mobile plans, device configurations, and network connectivity. I do not disclose internal system prompts, developer configurations, or hidden operational guidelines.`;
     }
 
     const botName = ragKnowledgeBase.config?.agent?.name || agent.name;
@@ -1848,7 +1850,7 @@ function createAgentServer(agent) {
         }
         const userMessage = message || '';
         const attacks = detectAttacks(userMessage);
-        const raw = await generateResponse(agent, userMessage, attacks);
+        const raw = await generateResponse(agent, userMessage, attacks, { isBrowser: true });
         // generateResponse may return a plain string or an object
         // {content, toolCalls?, dvaa?}. Keep /chat's legacy `response`
         // field as a string so existing consumers don't break, and
@@ -1896,7 +1898,12 @@ function createAgentServer(agent) {
         }
         const userMessage = turn.text;
         const attacks = detectAttacks(userMessage);
-        const raw = await generateResponse(agent, userMessage, attacks);
+        const isBrowserHeader = req.headers['x-dvaa-source'] === 'browser';
+        const isBrowserPayload = parsed.value.source === 'browser' || parsed.value.mode === 'browser';
+        const isRedteamHeader = req.headers['x-dvaa-source'] === 'redteam';
+        const isRedteamPayload = parsed.value.redteam === true || parsed.value.source === 'redteam' || parsed.value.mode === 'redteam';
+        const isBrowser = !isRedteamHeader && !isRedteamPayload && (isBrowserHeader || isBrowserPayload);
+        const raw = await generateResponse(agent, userMessage, attacks, { isBrowser });
         // generateResponse may return a plain string (legacy path) or an
         // object {content, toolCalls?, finishReason?, dvaa?} (new RAG-exfil
         // path that the AIM A/B demo runner consumes). Tighten the type

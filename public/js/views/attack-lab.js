@@ -38,6 +38,9 @@ let killChainProgress = [];
  * Send a message to the selected agent
  */
 async function sendMessage(agentId, port, message) {
+  const isRagbot = agentId === 'ragbot';
+  const redteamMode = isRagbot && localStorage.getItem('dvaa_ragbot_redteam') === 'true';
+
   // Route through the dashboard so the Attack Lab works with only :9000
   // published. The server resolves the agent by id and forwards to its
   // in-container port; no need to map every agent port to the host.
@@ -47,6 +50,7 @@ async function sendMessage(agentId, port, message) {
     body: JSON.stringify({
       model: 'dvaa',
       messages: [{ role: 'user', content: message }],
+      redteam: redteamMode,
     }),
   });
   const data = await resp.json();
