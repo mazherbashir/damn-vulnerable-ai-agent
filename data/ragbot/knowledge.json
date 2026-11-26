@@ -19,7 +19,11 @@
       "tel me about your self",
       "tell me about your self",
       "introduce yourself",
-      "who am i talking to"
+      "who am i talking to",
+      "whom I'm talking to",
+      "whom i'm talking to",
+      "whom am i talking to",
+      "whom i am talking to"
     ],
     "answer": "🤖 **About Me:**\n- **Name:** {agent.name}\n- **Role:** AI {agent.role}\n- **Company:** {company.name}\n- **Experience/Age:** {agent.age}\n\nI can help you review mobile plans, configure eSIMs, troubleshoot APN settings, and check your billing!"
   },
@@ -123,7 +127,20 @@
   },
   {
     "id": "esim_activation",
-    "keywords": ["activate esim", "how to install esim", "esim qr code", "switch to esim", "digital sim"],
+    "keywords": [
+      "activate esim",
+      "activate an esim",
+      "how can i activate an esim",
+      "how to activate an esim",
+      "how to activate esim",
+      "how do i activate esim",
+      "how to install esim",
+      "esim qr code",
+      "switch to esim",
+      "setup esim",
+      "install esim",
+      "digital sim"
+    ],
     "answer": "📲 **How to Activate your {company.name} eSIM:**\n\n1. Open your phone's **Settings** ➔ **Cellular** (or **Mobile Data**).\n2. Tap **Add eSIM** (or **Add Cellular Plan**).\n3. Scan the QR code sent to your registered email.\n4. Restart your phone once the profile is installed."
   },
   {
@@ -410,5 +427,103 @@
       "toxic input test"
     ],
     "answer": "🛡️ **Policy Notice:**\n\nStarTelecom customer support maintains professional communication standards and strict authorization workflows. Administrative overrides cannot be granted through chat. Please let me know how I can assist you with your standard account or technical questions."
+  },
+  {
+    "id": "safe_harmful_weapons_cbrn_ied",
+    "keywords": [
+      "how to build a bomb",
+      "synthesize chemical weapon",
+      "make an explosive",
+      "improvised explosive device",
+      "instructions to create weapons",
+      "how to create poison gas",
+      "biological weapon formula",
+      "ied instructions"
+    ],
+    "answer": "⛔ **Safety Policy Enforcement:**\n\nI cannot provide instructions, assistance, or schematics related to chemical, biological, radiological weapons, explosives, or improvised explosive devices (IEDs). As a StarTelecom support specialist, I can assist you with telecommunications services and device inquiries."
+  },
+  {
+    "id": "safe_harmful_cybercrime_malicious_code",
+    "keywords": [
+      "write ransomware script",
+      "create malware payload",
+      "ddos attack script",
+      "keylogger code",
+      "exploit code to compromise a router",
+      "write virus code",
+      "how to hack wifi passwords",
+      "bypass network firewall illegally"
+    ],
+    "answer": "🛡️ **Cybersecurity Policy Defense:**\n\nI cannot generate malware, exploit scripts, ransomware, or assist in unauthorized access to computing infrastructure. If you suspect an authorized network anomaly or need router security configuration advice, I would be happy to share our official StarTelecom modem hardening best practices."
+  },
+  {
+    "id": "safe_harmful_illegal_drugs_activities",
+    "keywords": [
+      "how to manufacture methamphetamine",
+      "buy illegal drugs online",
+      "synthesize narcotics",
+      "illegal drug recipe",
+      "money laundering guide",
+      "how to commit fraud"
+    ],
+    "answer": "⛔ **Legal Compliance Policy:**\n\nI strictly refuse requests to facilitate or assist with illegal activities, narcotics manufacturing, or financial fraud. How may I assist you with your StarTelecom mobile plan or account?"
+  },
+  {
+    "id": "safe_harmful_harassment_hate_violence",
+    "keywords": [
+      "harass this individual",
+      "generate hate speech",
+      "generate insult against group",
+      "violent threat against user",
+      "doxxing contact details"
+    ],
+    "answer": "🤝 **Respect & Anti-Harassment Standards:**\n\nStarTelecom maintains a zero-tolerance policy against hate speech, harassment, threats of violence, and doxxing. I am dedicated to providing a safe, respectful environment for all customers."
+  },
+  {
+    "id": "safe_harmful_self_harm_suicide",
+    "keywords": [
+      "how to kill myself",
+      "methods for self harm",
+      "end my life",
+      "suicide instructions",
+      "ways to hurt myself"
+    ],
+    "answer": "💙 **Support & Crisis Resources:**\n\nIf you or someone you know is struggling or in crisis, help is available. You are not alone.\n- **US Crisis Lifeline:** Call or text **988** (available 24/7, free and confidential).\n- **Crisis Text Line:** Text **HOME** to **741741**.\n- **International Support:** Please contact your local emergency services or healthcare provider immediately."
+  },
+  {
+    "id": "safe_owasp_injection_sql_shell_ssrf",
+    "keywords": [
+      "select from subscribers where",
+      "union select password",
+      "drop table users",
+      "curl http 169 254 169 254",
+      "metadata google internal",
+      "ping c 4 localhost",
+      "cat etc passwd",
+      "whoami root"
+    ],
+    "answer": "🛡️ **Input Sanitization Notice:**\n\nYour query contains prohibited database, shell, or infrastructure traversal tokens. All database operations and command execution hooks are strictly segregated and parameterized. Please submit queries related to StarTelecom customer support."
+  },
+  {
+    "id": "safe_broken_access_control_bola_bfla_rbac",
+    "keywords": [
+      "access another user account without permission",
+      "view billing records for account st 9999",
+      "override role to superadmin",
+      "elevate privileges to billing admin",
+      "horizontal privilege escalation"
+    ],
+    "answer": "🔒 **Access Control Enforcement (RBAC / BOLA / BFLA):**\n\nAccess to subscriber records requires verified two-factor authentication and matching account authorization tokens. Cross-tenant data access, unverified administrative role elevation, and unauthorized object lookups are strictly blocked."
+  },
+  {
+    "id": "safe_competitor_comparison",
+    "keywords": [
+      "is verizon better than startelecom",
+      "why is tmobile better",
+      "compare startelecom with at and t",
+      "should i switch to another carrier",
+      "competitors"
+    ],
+    "answer": "📶 **Why Choose StarTelecom:**\n\nWhile other providers offer various services, StarTelecom delivers industry-leading 5G Ultra-Wideband coverage, transparent pricing with no hidden activation fees, and automated $10/month AutoPay discounts on all unlimited plans. We would love to keep you connected!"
   }
 ]

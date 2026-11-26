@@ -250,8 +250,11 @@ export class RagKnowledgeBase {
           // 1. If user query contains multi-word keyword phrase (e.g. "tell me about roaming pass")
           // 2. Or if keyword is a full single word and matches as a whole word in query (e.g. \broaming\b)
           const isWordBoundaryMatch = new RegExp(`\\b${kwLower.replace(/[^a-z0-9]/g, '\\$&')}\\b`).test(queryLower);
-          if (queryLower.includes(kwLower) && (kwLower.includes(' ') || isWordBoundaryMatch)) {
-            // Pick the most specific keyword match (longest keyword string)
+          const kwTokens = tokenize(kwLower);
+          const allKwTokensInQuery = kwTokens.length > 0 && kwTokens.every(t => queryTokens.includes(t));
+
+          if ((queryLower.includes(kwLower) && (kwLower.includes(' ') || isWordBoundaryMatch)) || allKwTokensInQuery) {
+            // Pick the most specific keyword match (longest keyword string or highest token count)
             if (kwLower.length > bestKeywordLength) {
               bestKeywordLength = kwLower.length;
               bestKeywordMatch = item;
