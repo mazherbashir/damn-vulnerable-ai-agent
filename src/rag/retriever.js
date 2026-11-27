@@ -251,12 +251,15 @@ export class RagKnowledgeBase {
           // 2. Or if keyword is a full single word and matches as a whole word in query (e.g. \broaming\b)
           const isWordBoundaryMatch = new RegExp(`\\b${kwLower.replace(/[^a-z0-9]/g, '\\$&')}\\b`).test(queryLower);
           const kwTokens = tokenize(kwLower);
-          const allKwTokensInQuery = kwTokens.length > 0 && kwTokens.every(t => queryTokens.includes(t));
+          // For token subset matching, require at least 2 non-stopword tokens (e.g. "activate esim")
+          // to avoid single generic words like "name" triggering on queries that happen to contain "name"
+          const allKwTokensInQuery = kwTokens.length >= 2 && kwTokens.every(t => queryTokens.includes(t));
 
           if ((queryLower.includes(kwLower) && (kwLower.includes(' ') || isWordBoundaryMatch)) || allKwTokensInQuery) {
-            // Pick the most specific keyword match (longest keyword string or highest token count)
-            if (kwLower.length > bestKeywordLength) {
-              bestKeywordLength = kwLower.length;
+            // Score by token specificity first, then character length
+            const specificity = kwTokens.length * 1000 + kwLower.length;
+            if (specificity > bestKeywordLength) {
+              bestKeywordLength = specificity;
               bestKeywordMatch = item;
             }
           }
